@@ -7,7 +7,7 @@ My Battle Snake Code. Done in Python.
 * [CherryPy](https://cherrypy.org/)  
 
 ### Running on Repl.it  
-Please visit my [Replit link](https://replit.com/@SharenGanesh029/starter-snek-python-1#server.py)
+Please visit my [Replit link](https://replit.com/@SharenGanesh029/starter-snek-python#server.py)
 
 ### Basic Development Goals   
 Here are some basic dev goals by the official Battlesnake people.  
