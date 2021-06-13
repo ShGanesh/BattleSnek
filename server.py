@@ -4,6 +4,7 @@ import random
 import cherrypy
 
 """
+This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
 """
 
@@ -14,44 +15,84 @@ class Battlesnake(object):
     def index(self):
         # This function is called when you register your Battlesnake on play.battlesnake.com
         # It controls your Battlesnake appearance and author permissions.
-        # TIP: If you open your Battlesnake URL in browser you should see this data
         return {
             "apiversion": "1",
             "author": "ShGanesh",
-            "color": "#930318",
-            "head": "sand-work",  # Since I am a part of the House of Joe
+            "color": "#930318", 
+            "head": "sand-work",
             "tail": "#be0000",
         }
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
-    def start(self):              # This function is called everytime your snake is entered into a game.
-      
-        data = cherrypy.request.json  # cherrypy.request.json contains information about the game that's about to be played.
+    def start(self):
+        # This function is called everytime your snake is entered into a game.
+        
+        data = cherrypy.request.json
+        # cherrypy.request.json contains information about the game that's about to be played.
 
-        print("START")
+        print(data)
         return "ok"
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
-    def move(self):            # This function is called on every turn of a game. It's how your snake decides where to move.
-      
-        # Valid moves are "up", "down", "left", or "right".
-        # TODO: Use the information in cherrypy.request.json to decide your next move.
+    
+    def move(self):
         data = cherrypy.request.json
-
-        # Choose a random direction to move in
+        body = data["you"]["body"]
         possible_moves = ["up", "down", "left", "right"]
-        move = random.choice(possible_moves)
+        safe_moves = self.getSafeMoves(possible_moves, body, data["board"])
 
-        print(f"MOVE: {move}")
-        return {"move": move}
+        if safe_moves:
+            move = random.choice(safe_moves)
+            return {"move": move}
+        
+        return {"move": "up"}
+    
+    def getNext(self, currentHead, nextMove):
+        futureHead = currentHead.copy()
+        if nextMove == 'left':
+            futureHead['x'] = currentHead['x'] - 1
+        if nextMove == 'right':
+            futureHead['x'] = currentHead['x'] + 1
+        if nextMove == 'up':
+            futureHead['y'] = currentHead['y'] + 1
+        if nextMove == 'down':
+            futureHead['y'] = currentHead['y'] - 1
+        return futureHead
+        
+    def getSafeMoves(self, possible_moves, body, board):
+        safe_moves = []
+        for guess in possible_moves: # to check if the snake is going to be ded at its possible move.
+            guessCoord = self.getNext(body[0], guess) # instead of body[0] why not use head?
+            if self.avoidWalls(guessCoord, board["width"], board["height"]) and self.avoidSnakes(guessCoord, board["snakes"]):
+                safe_moves.append(guess)
+            elif len(body) > 1 and guessCoord == body[-1] and guess not in body[:-1]:
+              safe_moves.append(guess)
+        return safe_moves
+
+    def avoidWalls(self, futureHead, width, height):
+      result = True
+
+      x = int(futureHead['x'])
+      y = int(futureHead['y'])
+
+      if x < 0 or y <0 or x >= width or y >= height:
+        result = False
+
+      return result
+
+    def avoidSnakes(self, futureHead, snakeBodies):
+      for snake in snakeBodies:
+        if futureHead in snake["body"][:-1]:
+          return False
+        return True
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
-    def end(self):          # This function is called when a game your snake was in ends.
-      
+    def end(self):
+        # This function is called when a game your snake was in ends.
         # It's purely for informational purposes, you don't have to make any decisions here.
         data = cherrypy.request.json
 
