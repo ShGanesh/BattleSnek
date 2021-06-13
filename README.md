@@ -12,7 +12,7 @@ Please visit my [Replit link](https://replit.com/@SharenGanesh029/starter-snek-p
 ### Basic Development Goals   
 Here are some basic dev goals by the official Battlesnake people.  
 - [x] Avoid colliding with walls
-- [ ] Avoid colliding with yourself
+- [x] Avoid colliding with yourself
 - [ ] Try to move towards food
 - [ ] Avoid colliding with other snakes
 
