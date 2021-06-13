@@ -96,7 +96,7 @@ class Battlesnake(object):
         # It's purely for informational purposes, you don't have to make any decisions here.
         data = cherrypy.request.json
 
-        print("END")
+        print(data)
         return "ok"
 
 
