@@ -7,7 +7,7 @@ My Battle Snake Code. Done in Python.
 * [CherryPy](https://cherrypy.org/)  
 
 ### Running on Repl.it  
-Please visit the [Replit link](https://replit.com/@SharenGanesh029/starter-snek-python-1#server.py)
+Please visit my [Replit link](https://replit.com/@SharenGanesh029/starter-snek-python-1#server.py)
 
 ### Basic Development Goals   
 Here are some basic dev goals by the official Battlesnake people.  
@@ -17,3 +17,7 @@ Here are some basic dev goals by the official Battlesnake people.
 - [ ] Avoid colliding with other snakes
 
 Competetion against live Battlesnakes, further exploration and implementation of more complex strategies will be done once these basic goals have been fulfilled.
+
+For person customization please visit [The BattleSnake DOCS](https://docs.battlesnake.com/) 
+
+For walkthroughs and Livestreams please visit [CodeForCause Youtube Channel](https://www.youtube.com/watch?v=lVyCBeHFke0). Link to the first livestream has been given. 
